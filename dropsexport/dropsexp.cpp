@@ -43,7 +43,8 @@ using namespace std;
 #define tcl_const
 #endif
 
-static double de_scaling=1.0; 
+static double de_scaling = 1.0; 
+static int de_illegalbc = -1;
 
 int DE_gui_update (ClientData clientData,
                    Tcl_Interp * interp,
@@ -51,6 +52,8 @@ int DE_gui_update (ClientData clientData,
 {
   de_scaling = atof(argv[1]);
   cout << "Setting scaling to " << de_scaling << endl;
+  de_illegalbc = atof(argv[2]) - 1;
+  cout << "Setting illegal bc to " << de_illegalbc << endl;
   return TCL_OK;
 };
 
@@ -112,6 +115,7 @@ int DE_ExportMesh (ClientData clientData,
 
 namespace netgen
 {
+
 
 
 void WriteDropsFormat (const Mesh & mesh,
@@ -194,6 +198,19 @@ void WriteDropsFormat (const Mesh & mesh,
 
   //no cells=no tets
   //no faces=2*tets
+  
+  int cntinvalidones = 0;
+  for (int i = 0; i < nse; ++i)
+    {
+      if (mesh.GetFaceDescriptor(mesh.SurfaceElement(i).GetIndex()).BCProperty() - 1 == de_illegalbc)
+        cntinvalidones++;
+    }
+
+  cout << "removed " << cntinvalidones << " illegal surface elements" << endl;
+
+  nse -= cntinvalidones;
+
+  cout << "nse = " << nse << endl;
 
   int noverbface = 2*ne-nse/2; //inner faces
   int nfa = noverbface+nse;
@@ -335,6 +352,7 @@ void WriteDropsFormat (const Mesh & mesh,
 
   int acc=1;    
   for (int b=0; b<nbcs; b++){
+    if (b==de_illegalbc) continue;
     int mysize = surfaceelbc2gensurfel[b]->Size();
     sprintf(str,"(13 (%i %x %x 3 3)(",b+5,(noverbface+acc),noverbface+acc+mysize-1); //hexadecimal!!! //boundary faces
     outfile << str << endl;
@@ -363,8 +381,10 @@ void WriteDropsFormat (const Mesh & mesh,
   // boundary conditions correspond to which number?
   outfile << "(0 \"Zones:\")\n"
           << "(45 (4 interior default-interior)())\n";
-  for (int i = 0; i < nbcs; i++)
+  for (int i = 0; i < nbcs; i++){
+    if (i==de_illegalbc) continue;
     outfile << "(45 (" << 5+i << " bc" << i+1 << ")())\n";
+  }
   outfile << endl;
     
   //<< "(45 (2 wall wall)())\n"
