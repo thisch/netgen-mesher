@@ -133,6 +133,7 @@ void WriteDropsFormat (const Mesh & mesh,
       
   int np = mesh.GetNP();
   int ne = mesh.GetNE();
+  int ned = meshtopo.GetNEdges();
   int nse = mesh.GetNSE();
   int i, j;
 
@@ -234,6 +235,8 @@ void WriteDropsFormat (const Mesh & mesh,
    {1,3},
    {2,3}};
 
+  int edgeorder[6]={2,4,5,0,1,3};
+
   int maxind = -1;
   for (int i = 0; i < nse; i++)
     { 
@@ -243,22 +246,27 @@ void WriteDropsFormat (const Mesh & mesh,
   int nbcs = maxind +1;
   Array<Array<int> *> surfaceelbc2gensurfel(nbcs);
   for (int i=0; i<nbcs; i++) surfaceelbc2gensurfel[i] = new Array<int>();
+
+
+  // non-curved edge values (will be corrected if curved afterwards)
+  Array<Point3d* > edgevals(ned);
+  for (i = 1; i <= ned; i++)
+  {
+    int v1,v2;
+    meshtopo.GetEdgeVertices(i,v1,v2);
+    edgevals[i-1] = new Point3d(Center(mesh.Point(v1),mesh.Point(v2)));
+  }
+
   int gse = 0; //general surface element
+
   for (i = 1; i <= ne; i++)
-    {
-      if (ne > 2000)
-        {
-          if (i%2000 == 0)
-            {
-              cout << (double)i/(double)ne*100. << "%" << endl;
-            }
-        } 
-      Array<int> facesidx;
-      mesh.GetTopology().GetElementFaces(i,facesidx);
+  {
+      Array<int> edgesidx;
+      mesh.GetTopology().GetElementEdges(i,edgesidx);
+
       Element el = mesh.VolumeElement(i);
       //if (inverttets)
       //  el.Invert();
-      
       
       //outfile << el.GetIndex() << "    ";
       if (el.GetNP() == 10) 
@@ -266,9 +274,8 @@ void WriteDropsFormat (const Mesh & mesh,
           int matches = 0;
           /*cout << "found a curved tet" << endl*/;
           //test if element is really curved:
-          for (int j = 0; j < 6; j++){
-            Point3d pm = Center(mesh.Point(el.PNum(between[j][0]+1)),mesh.Point(el.PNum(between[j][1]+1)));
-            Vec3d d = pm - mesh.Point(el.PNum(j+4+1));
+          for (j = 0; j < 6; j++){
+            Vec3d d = Vec3d(*(edgevals[edgesidx[j]-1])) - Vec3d(mesh.Point(el.PNum(edgeorder[j]+4+1)));
             if (d.Length() < 1e-12){
               matches++;
             }
@@ -279,6 +286,26 @@ void WriteDropsFormat (const Mesh & mesh,
           }
         }
       else if (el.GetNP() != 4) {cout << "only tet-meshes supported in drops-export!" << endl;}
+  }
+  
+  for (i = 1; i <= ne; i++)
+    {
+      if (ne > 2000)
+        {
+          if (i%2000 == 0)
+            {
+              cout << (double)i/(double)ne*100. << "%" << endl;
+            }
+        } 
+      Array<int> facesidx, edgesidx;
+      mesh.GetTopology().GetElementFaces(i,facesidx);
+      mesh.GetTopology().GetElementEdges(i,edgesidx);
+      Element el = mesh.VolumeElement(i);
+      if (el.GetNP() == 10) 
+        {
+          for (j = 0; j < 6; j++)
+            *(edgevals[edgesidx[j]-1]) = mesh.Point(el.PNum(edgeorder[j]+4+1));
+        }
       
       //faces:
       
@@ -398,24 +425,54 @@ void WriteDropsFormat (const Mesh & mesh,
       { 1, 2, 7 },
       { 1, 3, 8 },
       { 2, 3, 9 } };  */
-  string tmp = filename + ".2nd";
-  ofstream out2ndo(tmp.c_str());
-  for (int i = 1; i <= ne; i++)
+  // string tmp = filename + ".2nd";
+  // ofstream out2ndo(tmp.c_str());
+  // for (int i = 1; i <= ne; i++)
+  //   {
+  //     if (!curvedelements.Test(i)) continue;
+  //     Element el = mesh.VolumeElement(i);
+  //     out2ndo << el.PNum(1) << "\t" << el.PNum(2)  << "\t" << el.PNum(3) << "\t" << el.PNum(4) << "\t" ;
+  //     for ( int j = 5; j <= 10; j ++){
+  //       const Point3d & p = mesh.Point(el.PNum(j));
+  //       out2ndo << p.X() << "\t";
+  //       out2ndo << p.Y() << "\t";
+  //       out2ndo << p.Z() << "\t";
+  //     }
+  //     out2ndo << endl;
+  //   }
+
+  string tmp2 = filename + ".2nd";
+  ofstream out2nde(tmp2.c_str());
+  for (int i = 0; i < ned; i++)
     {
-      if (!curvedelements.Test(i)) continue;
-      Element el = mesh.VolumeElement(i);
-      out2ndo << el.PNum(1) << "\t" << el.PNum(2)  << "\t" << el.PNum(3) << "\t" << el.PNum(4) << "\t" ;
-      for ( int j = 5; j <= 10; j ++){
-        const Point3d & p = mesh.Point(el.PNum(j));
-        out2ndo << p.X() << "\t";
-        out2ndo << p.Y() << "\t";
-        out2ndo << p.Z() << "\t";
+      // if (!curvededge.Test(i)) continue;
+      int v1,v2;
+      meshtopo.GetEdgeVertices(i+1,v1,v2);
+      const Point3d a(mesh.Point(v1));
+      const Point3d b(mesh.Point(v2));
+      const Point3d d(Center(a,b));
+      const Point3d c(*edgevals[i]);
+      const Vec3d e(d-c);
+      if (e.Length() > 1e-12)
+      {
+        out2nde << a.X() << "\t";
+        out2nde << a.Y() << "\t";
+        out2nde << a.Z() << "\t";
+        out2nde << b.X() << "\t";
+        out2nde << b.Y() << "\t";
+        out2nde << b.Z() << "\t";
+        out2nde << c.X() << "\t";
+        out2nde << c.Y() << "\t";
+        out2nde << c.Z() << "\t";
+        out2nde << "\n";
       }
-      out2ndo << endl;
     }
+
     
   for (int i=0; i<nbcs; i++) delete surfaceelbc2gensurfel[i];
-    
+
+  for (i = 0; i < ned; i++)
+	delete edgevals[i];    
 }
 
 }
