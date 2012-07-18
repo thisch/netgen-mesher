@@ -455,12 +455,15 @@ void WriteDropsFormat (const Mesh & mesh,
       const Vec3d e(d-c);
       if (e.Length() > 1e-12)
       {
-        out2nde << a.X() << "\t";
-        out2nde << a.Y() << "\t";
-        out2nde << a.Z() << "\t";
-        out2nde << b.X() << "\t";
-        out2nde << b.Y() << "\t";
-        out2nde << b.Z() << "\t";
+        // out2nde << a.X() << "\t";
+        // out2nde << a.Y() << "\t";
+        // out2nde << a.Z() << "\t";
+        // out2nde << b.X() << "\t";
+        // out2nde << b.Y() << "\t";
+        // out2nde << b.Z() << "\t";
+        out2nde << d.X() << "\t";
+        out2nde << d.Y() << "\t";
+        out2nde << d.Z() << "\t";
         out2nde << c.X() << "\t";
         out2nde << c.Y() << "\t";
         out2nde << c.Z() << "\t";
