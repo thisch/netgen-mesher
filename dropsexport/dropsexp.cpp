@@ -461,9 +461,11 @@ void WriteDropsFormat (const Mesh & mesh,
         // out2nde << b.X() << "\t";
         // out2nde << b.Y() << "\t";
         // out2nde << b.Z() << "\t";
-        out2nde << d.X() << "\t";
-        out2nde << d.Y() << "\t";
-        out2nde << d.Z() << "\t";
+        // out2nde << d.X() << "\t";
+        // out2nde << d.Y() << "\t";
+        // out2nde << d.Z() << "\t";
+        out2nde <<  v1   << "\t";
+        out2nde <<  v2   << "\t";
         out2nde << c.X() << "\t";
         out2nde << c.Y() << "\t";
         out2nde << c.Z() << "\t";
