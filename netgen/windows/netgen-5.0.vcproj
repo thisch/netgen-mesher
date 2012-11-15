@@ -250,6 +250,7 @@
 				LinkLibraryDependencies="false"
 				AdditionalDependencies="pthreadVC2.lib tcl85.lib tk85.lib tix84.lib Togl17.lib glu32.lib opengl32.lib"
 				ShowProgress="0"
+				OutputFile="$(OutDir)\netgen.exe"
 				Version=""
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)..\..\ext_libs\tcl\lib&quot;;&quot;$(SolutionDir)..\..\ext_libs\pthread-w32\lib&quot;"
@@ -944,11 +945,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\gprim.hpp"
+				RelativePath="..\libsrc\gprim\gprim.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\gprim\gprim.hpp"
+				RelativePath="..\libsrc\include\gprim.hpp"
 				>
 			</File>
 			<File
@@ -1004,11 +1005,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\linalg\linalg.hpp"
+				RelativePath="..\libsrc\include\linalg.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\linalg.hpp"
+				RelativePath="..\libsrc\linalg\linalg.hpp"
 				>
 			</File>
 			<File
@@ -1032,11 +1033,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\meshing\meshing.hpp"
+				RelativePath="..\libsrc\include\meshing.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\meshing.hpp"
+				RelativePath="..\libsrc\meshing\meshing.hpp"
 				>
 			</File>
 			<File
@@ -1076,11 +1077,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\myadt.hpp"
+				RelativePath="..\libsrc\general\myadt.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\general\myadt.hpp"
+				RelativePath="..\libsrc\include\myadt.hpp"
 				>
 			</File>
 			<File
@@ -1116,11 +1117,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\occ\occgeom.hpp"
+				RelativePath="..\libsrc\include\occgeom.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\occgeom.hpp"
+				RelativePath="..\libsrc\occ\occgeom.hpp"
 				>
 			</File>
 			<File
@@ -1128,11 +1129,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\opti.hpp"
+				RelativePath="..\libsrc\linalg\opti.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\linalg\opti.hpp"
+				RelativePath="..\libsrc\include\opti.hpp"
 				>
 			</File>
 			<File
@@ -1220,11 +1221,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\geom2d\spline.hpp"
+				RelativePath="..\libsrc\gprim\spline.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\gprim\spline.hpp"
+				RelativePath="..\libsrc\geom2d\spline.hpp"
 				>
 			</File>
 			<File
@@ -1236,11 +1237,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\geom2d\splinegeometry.hpp"
+				RelativePath="..\libsrc\gprim\splinegeometry.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\gprim\splinegeometry.hpp"
+				RelativePath="..\libsrc\geom2d\splinegeometry.hpp"
 				>
 			</File>
 			<File
@@ -1252,11 +1253,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\stlgeom.hpp"
+				RelativePath="..\libsrc\stlgeom\stlgeom.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\stlgeom\stlgeom.hpp"
+				RelativePath="..\libsrc\include\stlgeom.hpp"
 				>
 			</File>
 			<File
@@ -1320,11 +1321,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\include\visual.hpp"
+				RelativePath="..\libsrc\visualization\visual.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libsrc\visualization\visual.hpp"
+				RelativePath="..\libsrc\include\visual.hpp"
 				>
 			</File>
 			<File
