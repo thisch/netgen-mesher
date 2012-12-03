@@ -752,7 +752,7 @@ void MeshOptimize3d :: SwapImprove (Mesh & mesh, OPTIMIZEGOAL goal,
 		}
 	      
 	      pi5 = 0;
-	      for (int k = 1; k < 3; k++)
+	      for (int k = 0; k < 3; k++)
 		{
 		  const Element & elemk = mesh[hasbothpoints[k]];
 		  bool has1 = 0;
@@ -905,7 +905,7 @@ void MeshOptimize3d :: SwapImprove (Mesh & mesh, OPTIMIZEGOAL goal,
 		}
 	      
 	      pi5 = 0;
-	      for (int k = 1; k < 4; k++)
+	      for (int k = 0; k < 4; k++)
 		{
 		  const Element & elem = mesh[hasbothpoints[k]];
 		  bool has1 = 0;
@@ -921,7 +921,7 @@ void MeshOptimize3d :: SwapImprove (Mesh & mesh, OPTIMIZEGOAL goal,
 		}
 	      
 	      pi6 = 0;
-	      for (int k = 1; k < 4; k++)
+	      for (int k = 0; k < 4; k++)
 		{
 		  const Element & elem = mesh[hasbothpoints[k]];
 		  bool has1 = 0;
