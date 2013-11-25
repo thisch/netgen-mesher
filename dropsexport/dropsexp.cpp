@@ -203,7 +203,7 @@ void WriteDropsFormat (const Mesh & mesh,
   int cntinvalidones = 0;
   for (int i = 0; i < nse; ++i)
     {
-      if (mesh.GetFaceDescriptor(mesh.SurfaceElement(i).GetIndex()).BCProperty() - 1 == de_illegalbc)
+      if (mesh.GetFaceDescriptor(mesh.SurfaceElement(i+1).GetIndex()).BCProperty() - 1 == de_illegalbc)
         cntinvalidones++;
     }
 
