@@ -15,9 +15,10 @@ v4.9,v5.0,... .
 Since the git repository is created from the original subversion
 repository using git filter-branch, fast-forwarding of the individual
 branches might not work all the time. In comparison to the svn repo
-the ng4.pdf file has been removed in order to reduce the size of the
-repository. The file can be reproduced from the source file which is
-still included in the repository.
+several mistakenly committed auto-generated autotools scripts have
+been removed in order to reduce the size of the repository. The file
+can be reproduced from the source file which is still included in the
+repository.
 
 The shell script convert.sh and the authors file for converting the
 subversion repository is located together with this README file in the
