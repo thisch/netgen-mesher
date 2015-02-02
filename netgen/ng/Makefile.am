@@ -22,10 +22,8 @@ netgen_LDADD = $(top_builddir)/libsrc/visualization/libvisual.la \
 	$(top_builddir)/libsrc/csg/libcsg.la \
 	$(top_builddir)/libsrc/interface/libinterface.la \
 	$(top_builddir)/libsrc/meshing/libmesh.la \
-	-L$(TK_BIN_DIR)/Togl1.7 $(TOGLLIBDIR) -lTogl $(LIBGLU) $(TK_LIB_SPEC) $(TCL_LIB_SPEC) $(MPI_LIBS) $(FFMPEG_LIBS) $(JPEGLIB_LIBS) $(PKG_LIBS) $(MKL_LIBS) 
+	-L/usr/lib64 -lTogl $(LIBGLU) $(TK_LIB_SPEC) $(TCL_LIB_SPEC) $(MPI_LIBS) $(FFMPEG_LIBS) $(JPEGLIB_LIBS) $(PKG_LIBS) $(MKL_LIBS)
 
-
-#
 #	$(top_builddir)/libsrc/occ/liboccvis.la 
 #	$(top_builddir)/libsrc/occ/libocc.la 
 #	$(top_builddir)/libsrc/stlgeom/libstlvis.la 
